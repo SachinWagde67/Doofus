@@ -4,8 +4,7 @@ public class PulpitModel
 {
     private PulpitController pulpitController;
 
-    public float minDestroyTime { get; set; }
-    public float maxDestroyTime { get; set; }
+    public float destroyTime { get; set; }
     public float spawnTime { get; set; }
 
     public void setPulpitController(PulpitController controller)
@@ -15,8 +14,7 @@ public class PulpitModel
 
     public PulpitModel(Data data)
     {
-        minDestroyTime = data.pulpitData.minDestroyTime;
-        maxDestroyTime = data.pulpitData.maxDestroyTime;
+        destroyTime = Random.Range(data.pulpitData.minDestroyTime, data.pulpitData.maxDestroyTime);
         spawnTime = data.pulpitData.spawnTime;
     }
 

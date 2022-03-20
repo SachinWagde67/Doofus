@@ -1,15 +1,18 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PulpitService : SingletonGeneric<PulpitService>
 {
     [HideInInspector] public PulpitView pulpitView;
-    public int rows;
-    public int cols;
+    [HideInInspector] public Vector3 prevPulpitPosition;
+    [HideInInspector] public PulpitController pulpitController;
     
-    private PulpitController pulpitController;
-    private GameObject[,] platforms;
-    [SerializeField] private GameObject platformPrefab;
-    [SerializeField] private Transform platformParent;
+    public GameObject pulpitPrefab;
+    public Transform pulpitParent;
+
+    [SerializeField] private int poolSize;
+    private Queue<PulpitView> pulpitPool;
 
     public override void Awake()
     {
@@ -18,32 +21,56 @@ public class PulpitService : SingletonGeneric<PulpitService>
 
     private void Start()
     {
-        generatePulpits();
-        pulpitController = new PulpitController(pulpitView);
+        pulpitPool = new Queue<PulpitView>();
+        for (int i = 0; i < poolSize; i++)
+        {
+            CreatePulpitAndAddToPool();
+        }
+        createPulpit();
     }
 
-    private void generatePulpits()
+    private void CreatePulpitAndAddToPool()
     {
-        platforms = new GameObject[rows, cols];
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                spawnPulpit(i, j);
-            }
-        }
+        PulpitView createdPulpit = CreatePulpit();
+        pulpitPool.Enqueue(createdPulpit);
+        createdPulpit.gameObject.SetActive(false);
     }
 
-    private void spawnPulpit(int i, int j)
+    private PulpitView CreatePulpit()
     {
-        GameObject obj = Instantiate(platformPrefab, platformParent);
-        pulpitView = obj.GetComponent<PulpitView>();
-        pulpitView.transform.position = new Vector3(i * platformPrefab.transform.localScale.x, 0f, j * platformPrefab.transform.localScale.z);
-        pulpitView.gameObject.SetActive(false);
-        if (i == rows / 2 && j == cols / 2)
+        PulpitView createdpulpit = Instantiate(pulpitPrefab, pulpitParent).GetComponent<PulpitView>();
+        return createdpulpit;
+    }
+
+    public void AddPulpitBackToPool(PulpitView pulpit)
+    { 
+        pulpitPool.Enqueue(pulpit);
+        pulpit.gameObject.SetActive(false);
+    }
+
+    public PulpitView GetPulpitFromPool()
+    {
+        if (pulpitPool.Count <= 0)
         {
-            pulpitView.gameObject.SetActive(true);
-            PlayerService.Instance.spawnPlayer(i, j, platformPrefab);
+            CreatePulpitAndAddToPool();
         }
+        return pulpitPool.Dequeue();
+    }
+
+    public int getDirection()
+    {
+        int rand = UnityEngine.Random.Range(0, Enum.GetValues(typeof(Direction)).Length);
+        return rand;
+    }
+
+    private void createPulpit()
+    {
+        PulpitView view = GetPulpitFromPool();
+        pulpitController = new PulpitController(view);
+        view.gameObject.SetActive(true);
+        view.Collider.SetActive(true);
+        prevPulpitPosition = view.transform.position;
+        PlayerService.Instance.spawnPlayer(view.transform.position);
+        view.initialState.changeState(view.initializePulpit);
     }
 }
