@@ -20,10 +20,10 @@ public class PlayerService : SingletonGeneric<PlayerService>
         playerController.setCamera(virtualCamera);
     }
 
-    public void spawnPlayer(int i, int j, GameObject platformPrefab)
+    public void spawnPlayer(Vector3 pos)
     {
         GameObject player = Instantiate(playerPrefab);
         playerView = player.GetComponent<PlayerView>();
-        playerView.setPlayerPosition(i, j, platformPrefab);
+        playerView.setPlayerPosition(pos);
     }
 }

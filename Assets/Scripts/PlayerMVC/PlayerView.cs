@@ -17,9 +17,9 @@ public class PlayerView : MonoBehaviour
         zDir = Input.GetAxis("Vertical");
     }
 
-    public void setPlayerPosition(int i, int j, GameObject platformPrefab)
+    public void setPlayerPosition(Vector3 pos)
     {
-        transform.position = new Vector3(i * platformPrefab.transform.localScale.x, 1f, j * platformPrefab.transform.localScale.z);
+        transform.position = pos;
     }
 
     public void setPlayerController(PlayerController controller)
