@@ -5,7 +5,11 @@ In this game you will be a player name Doofus and there will be platforms that w
 ---
 
 # Screenshots
+![](Images/Img1.png)
+![](Images/Img2.png)
+![](Images/Img3.png)
 
+---
 
 ### Implementation Details & Design Patterns Used 
 * Used generic Singleton.
