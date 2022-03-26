@@ -4,12 +4,12 @@ In this game you will be a player name Doofus and there will be platforms that w
 
 ---
 
-# ScreenShots
+# Screenshots
 
 
 ### Implementation Details & Design Patterns Used 
-* **Implemented Telekinesis as a special power for pulling objects from the environment and throwing them on enemies.**
-* **Implemented Singleton Pattern using a Generic Singleton Script for various Services**
-* **Used Observer Pattern for various events like Player Death**
-* **Implemented an enemy AI using Unity's NavMesh system and health system along with a random Enemy Spawner**
-* **Used Particle Effects and multiple types of Light Sources in the game**
+* Used generic Singleton.
+* Implemented MVC-S design pattern for the player.
+* Implemented MVC-S design pattern for the platforms.
+* Implemented object pooling for platforms.
+* Implemented State Machine pattern for different states of platform like Initialized, OnSpawned, and Destroy.
