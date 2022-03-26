@@ -4,16 +4,16 @@ In this game you will be a player name Doofus and there will be platforms that w
 
 ---
 
-# Screenshots
-![](Images/Img1.png)
-![](Images/Img2.png)
-![](Images/Img3.png)
-
----
-
 ### Implementation Details & Design Patterns Used 
 * Used generic Singleton.
 * Implemented MVC-S design pattern for the player.
 * Implemented MVC-S design pattern for the platforms.
 * Implemented object pooling for platforms.
 * Implemented State Machine pattern for different states of platform like Initialized, OnSpawned, and Destroy.
+
+---
+
+# Screenshots
+![](Images/Img1.png)
+![](Images/Img2.png)
+![](Images/Img3.png)
